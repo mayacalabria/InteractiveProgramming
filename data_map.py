@@ -19,6 +19,28 @@ class PyGameWindowView(object):
         pygame.display.update()
 
 
+class Infobox(object):
+    def __init__(self,state,dim,x,y):
+        self.state = state
+        self.dim = dim
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return "State=%s, size=%f by %f, position=(%f,%f)" % (self.state,
+                                                              self.dim,
+                                                              self.dim,
+                                                              self.x,
+                                                              self.y)
+    def draw(self,window):
+        ### how can I draw onto an already existing screen
+        
+
+
+
+
+
+
 if __name__ == "__main__":
 
     pygame.init()
@@ -26,3 +48,5 @@ if __name__ == "__main__":
     view = PyGameWindowView(size)
     while True:
         view.draw()
+    washington = Infobox('Washington',20,50,50)
+    print(washington)
