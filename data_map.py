@@ -56,21 +56,20 @@ class Infocard(object):
         self.msg = msg
         self.left = 850
         self.top = 400
-        self.width = 240
+        self.width = 200
         self.height = 280
         self.surf = pygame.Surface((self.width,self.height))
         self.color = color
         self.surf.fill(self.color)
         self.rect = pygame.Rect(self.left,self.top,self.width,self.height)
 
-    def draw(self,view):
+    def draw(self,image):
         self.card = pygame.draw.rect(self.surf,self.color,self.rect,self.rect.width)
         view.screen.blit(self.surf, self.card)
         pygame.display.update()
 
-        textSurf, textRect = text_objects(self.msg, smallText)
-        textRect.center = (self.left + (self.width/2),(self.top + 15))
-        view.screen.blit(textSurf, textRect)
+        info = pygame.image.load(image)
+        view.screen.blit(info,self.card)
         pygame.display.update()
 
 
@@ -150,10 +149,10 @@ if __name__ == "__main__":
                 state = find_state(mouse[0], mouse[1])
                 if state == 'Washington':
                     wa_card = Infocard('Washington')
-                    wa_card.draw(view)
+                    wa_card.draw('Washington.png')
                 if state == 'Wyoming':
                     wy_card = Infocard('Wyoming')
-                    wy_card.draw(view)
+                    wy_card.draw('Wyoming.png')
                 if state == 'Texas':
                     tx_card = Infocard('Texas')
                     tx_card.draw(view)
