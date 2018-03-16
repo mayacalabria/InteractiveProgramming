@@ -56,22 +56,22 @@ class Infocard(object):
         self.msg = msg
         self.left = 850
         self.top = 400
-        self.width = 240
+        self.width = 200
         self.height = 280
         self.surf = pygame.Surface((self.width,self.height))
         self.color = color
         self.surf.fill(self.color)
         self.rect = pygame.Rect(self.left,self.top,self.width,self.height)
 
-    def draw(self,view):
+    def draw(self,image):
         self.card = pygame.draw.rect(self.surf,self.color,self.rect,self.rect.width)
         view.screen.blit(self.surf, self.card)
         pygame.display.update()
 
-        textSurf, textRect = text_objects(self.msg, smallText)
-        textRect.center = (self.left + (self.width/2),(self.top + 15))
-        view.screen.blit(textSurf, textRect)
+        info = pygame.image.load(image)
+        view.screen.blit(info,self.card)
         pygame.display.update()
+
 
 
 
@@ -86,7 +86,7 @@ def find_state(pos,states):
         top = state.top
         if (left < pos[0] < left + 20) and (top < pos[1] < top + 20):
             return state.state
-    return 'Not Found'
+    return 'White'
 
 
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     arizona = State('Arizona',285,350)
     florida = State('Florida',810,480)
     penn = State('Pennsylvania',880,205)
-    scarolina = State('South Carolina',825,355)
+    scarolina = State('SouthCarolina',825,355)
     alabama = State('Alabama',775,375)
     states = [washington,wyoming,texas,cali,mass,arizona,florida,penn,scarolina,alabama]
     for state in states:
@@ -129,7 +129,4 @@ if __name__ == "__main__":
                 mouse = pygame.mouse.get_pos()
                 state = find_state(mouse,states)
                 info_card = Infocard(state)
-                info_card.draw(view)
-                if state == 'Not Found':
-                    clear_card = Infocard('',color=(255,255,255))
-                    clear_card.draw(view)
+                info_card.draw(state+'.png')
