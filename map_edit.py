@@ -13,10 +13,9 @@ class View(object):
     def draw(self):
         """ Draw the current game state to the screen """
         self.screen.fill(pygame.Color(0,0,0))
-        bg = pygame.image.load("heatmap.png")
+        bg = pygame.image.load("heatmap2.png")
         bg = pygame.transform.scale(bg,self.size)
         self.screen.blit(bg, [0,0])
-        # bg.blit()
         pygame.display.update()
 
     def display_info(self,info):
@@ -44,7 +43,7 @@ class State(object):
         self.width = width
         self.height = height
         self.surf = pygame.Surface((self.width,self.height))
-        self.color = 255,0,0
+        self.color = 0,191,255
         self.surf.fill(self.color)
         self.rect = pygame.Rect(self.left,self.top,self.width,self.height)
         self.rect.width = 0
@@ -52,7 +51,10 @@ class State(object):
 
 
 class Infocard(object):
+    """ Imports an image of a state's infocard and shows in on the
+    screen when that state is selected """
     def __init__(self,msg,color=(200,200,200)):
+        """ Creates a surface to attach the info card to """
         self.msg = msg
         self.left = 850
         self.top = 400
@@ -64,6 +66,10 @@ class Infocard(object):
         self.rect = pygame.Rect(self.left,self.top,self.width,self.height)
 
     def draw(self,image):
+        """ Draws the specified image to the Infocard surface
+
+        image: must be a string """
+
         self.card = pygame.draw.rect(self.surf,self.color,self.rect,self.rect.width)
         view.screen.blit(self.surf, self.card)
         pygame.display.update()
@@ -74,20 +80,19 @@ class Infocard(object):
 
 
 
-
-def text_objects(text,font):
-    textSurface = font.render(text, True, (0,0,0))
-    return textSurface, textSurface.get_rect()
-
-
 def find_state(pos,states):
+    """ Associates a mouse click with the correct state, and returns the
+    state name as a string.
+
+    pos = tuple with the mouse position for a MOUSEBUTTONDOWN event
+    states = a list including all states plotted
+    """
     for state in states:
         left = state.left
         top = state.top
         if (left < pos[0] < left + 20) and (top < pos[1] < top + 20):
             return state.state
     return 'White'
-
 
 
 
@@ -100,7 +105,7 @@ if __name__ == "__main__":
     view = View(size)
     view.draw()
 
-    # instantiating the State classes
+    # instantiating the State classes at appropriate locations
     washington = State('Washington', 130, 55)
     wyoming = State('Wyoming', 360, 155)
     texas = State('Texas',515,410)
@@ -112,19 +117,17 @@ if __name__ == "__main__":
     scarolina = State('SouthCarolina',825,355)
     alabama = State('Alabama',775,375)
     states = [washington,wyoming,texas,cali,mass,arizona,florida,penn,scarolina,alabama]
+
+    # drawing all the State classes to the map
     for state in states:
         view.display_info(state)
 
 
-    smallText = pygame.font.SysFont("comicsansms",30)
 
 
     while True:
-        # print(washington.button())
-
 
         for event in pygame.event.get():
-            # print(event)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
                 state = find_state(mouse,states)
